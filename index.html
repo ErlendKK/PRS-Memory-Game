@@ -22,19 +22,22 @@
             </fieldset>
             <button>Start game</button>
         </form>
+        
         <game-stat 
             :game-started="gameStarted && !gameOver" 
             :players="players">
         </game-stat>
+        
         <board v-if="gameStarted && !gameOver" 
             :players="players" 
             :dimensions="dimensions" 
             @turn-played="handleTurnPlayed" 
             @card-flipped="incrementCardFlip">
         </board>
+        
         <div v-if="winner" class="winner gameover">
             <div id="winner" class="winner">
-                The winner is <span id="winnerSpan"> {{ winner }} </span>!
+                The winner is <span id="winnerSpan"> v-html="winner"</span>!
             </div>
             <button @click="restartGame">Play again</button>
         </div>
