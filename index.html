@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+    <script src="src/gamestat.js"></script>
+    <script src="src/board.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <title>Vue Memory</title>
+</head>
+<body>
+
+    <div id="app">
+        <form v-if="!gameStarted" @submit.prevent="startGame" id="startbutton">
+            <fieldset>
+                <label for="dimentions">Select a number of Rows and Columns</label>
+                <input id="dimentions" type="number" v-model="dimensions">
+            </fieldset>
+            <button>Start game</button>
+        </form>
+        <game-stat 
+            :game-started="gameStarted && !gameOver" 
+            :players="players">
+        </game-stat>
+        <board v-if="gameStarted && !gameOver" 
+            :players="players" 
+            :dimensions="dimensions" 
+            @turn-played="handleTurnPlayed" 
+            @card-flipped="incrementCardFlip">
+        </board>
+        <div v-if="winner" class="winner gameover">
+            <div id="winner" class="winner">
+                The winner is <span id="winnerSpan"> {{ winner }} </span>!
+            </div>
+            <button @click="restartGame">Play again</button>
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    winner: null,
+                    gameStarted: false,
+                    gameOver: false,
+                    dimensions: 4,
+                    players: [
+                        {name: 'Player 1', score: 0, flips: 0, hasTurn: true},
+                        {name: 'Player 2', score: 0, flips: 0, hasTurn: false},
+                    ]
+                }
+            },
+            methods: {
+                startGame() {
+                    if (this.dimensions < 4) return;
+
+                    console.log('game started');
+                    this.gameStarted = true;
+                },
+
+                handleTurnPlayed(data) {
+                    console.log('data.match: ' + data.match + '. data.gameOver: ' + data.gameOver)
+
+                    if (data.match) {
+                        const currentPlayer = this.players.find(player => player.hasTurn);
+                        currentPlayer.score++
+
+                    } else {
+                        this.players.forEach(player => player.hasTurn = !player.hasTurn);
+                    }
+
+                    if (data.gameOver) this.handleGameOver();
+                },
+
+                incrementCardFlip() {
+                    const currentPlayer = this.players.find(player => player.hasTurn);
+                    currentPlayer.flips++;
+                },
+
+                handleGameOver() {
+                    this.gameOver = true;
+                    const scorePlayer1 = this.players.find(player => player.name === 'Player 1').score;
+                    const scorePlayer2 = this.players.find(player => player.name === 'Player 2').score;
+                    console.log('scorePlayer1: ' + scorePlayer1 + ' scorePlayer2: ' + scorePlayer2)
+                    const isDraw = scorePlayer1 === scorePlayer2;
+
+                    if (isDraw) {
+                        this.winner = 'none (draw)';
+                    } else {
+                        this.winner = scorePlayer1 > scorePlayer2 ? this.players[0].name : this.players[1].name
+                    }
+
+                },
+
+                restartGame() {
+                    this.players.forEach(player => {
+                        player.score = 0;
+                        player.flips = 0;
+                        player.hasTurn = player.name === 'Player 1' ? true : false;
+                    })
+
+                    this.winner = null;
+                    this.gameStarted = false;
+                    this.gameOver = false;
+                    this.dimensions = 0;
+                }
+            }
+        });
+        app.component('board', boardC);
+        app.component('game-stat',gameStatC);
+        app.mount("#app");
+    </script>
+</body>
+</html>

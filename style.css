@@ -1,0 +1,158 @@
+:root {
+    --dark-green-gray: #283618;
+    --light-gray-green: #B7B7A4;
+    --soft-gray: #D4D4D4;
+    --off-white: #F0EFEB;
+  }  
+
+* {
+    font-family: Verdana, Arial, sans-serif;
+}
+
+button {
+    background-color: var(--off-white);
+}
+
+body {
+    background: var(--soft-gray);
+    width: 90%;
+    height: 90%;
+    margin: auto;
+}
+
+.winner {
+    width: 500px;
+    text-align: center;
+    margin: auto;
+    background-color: var(--light-gray-green);
+    height: 60px;
+}
+
+.gameover {
+    border: 4px solid var(--dark-green-gray); 
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.gameover>button {
+    max-width: 120px;
+    margin-bottom: 5px;
+}
+
+#startbutton {
+    border: 2px solid var(--dark-green-gray); 
+    background-color: var(--light-gray-green);
+    margin: 100px auto;
+    width: 500px;
+    height: auto;
+    line-height: 50px;
+    font-size: 14px;
+    text-align: center;
+}
+
+input {
+    margin-left: 10px;
+    max-width: 40px;
+    background-color: var(--off-white);
+}
+
+
+
+.cardboard {
+    overflow: auto;
+    padding: 10px;
+    background-color: var(--dark-green-gray); 
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    border-radius: 10px;
+    border: 2px solid var(--light-gray-green);
+    background-color: var(--off-white);
+    margin: 5px;
+    transition: transform 0.6s;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.outer {
+    position: relative;
+    flex-shrink: 0;
+    width: 100px;
+    height: 150px;
+}
+
+.card.back {
+    z-index: 2;
+    backface-visibility: hidden;
+}
+
+.card.front {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card img {
+    width: 90%;
+}
+
+.clearleft {
+    clear: left;
+}
+
+#gamestat {
+    margin: 20px;
+    display: flex;
+}
+
+#gamestat div {
+    width: 20%;
+}
+
+.score {
+    border: 1px solid black;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0.2em;
+}
+
+#player2 {
+    text-align: right;
+}
+
+
+#player1, #player2  {
+    width: auto;
+    min-width: 110px;
+    max-width: 150px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#stat {
+    text-align: center;
+}
+
+.current-player {
+    background-color: var(--light-gray-green); 
+    border: 4px solid var(--dark-green-gray);
+}
+.other-player {
+    background-color: var(--off-white); 
+    border: 2px solid var(--dark-green-gray); 
+}
+.flipped>.card {
+    transform: rotateY(180deg);
+}
+.removed {
+    visibility: hidden;
+}
