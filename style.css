@@ -9,6 +9,10 @@
     font-family: Verdana, Arial, sans-serif;
 }
 
+[v-cloak] {
+    display: none;
+}
+
 button {
     background-color: var(--off-white);
 }
