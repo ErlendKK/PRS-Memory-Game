@@ -1,4 +1,7 @@
-
+/**
+ * Component representing game statistics.
+ * @type {Object}
+ */
 const gameStatC = {
     props: {
         gameStarted: Boolean, 
@@ -39,6 +42,10 @@ const gameStatC = {
             </div>
         </div>`,
     computed: {
+        /**
+         * Computes the name of the current player.
+         * @returns {string} The name of the current player or 'No current player' if no player has the turn.
+         */
        currentPlayerName() {
             const currentPlayer = this.players.find(player => player.hasTurn);
             return currentPlayer ? currentPlayer.name : 'No current player';
